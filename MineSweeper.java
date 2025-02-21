@@ -5,19 +5,13 @@ import java.util.Random;
 import javax.swing.*;
 
 public class MineSweeper {
-    private class MineTile extends JButton {
-        int r;
-        int c;
-
-        public MineTile(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
-    }
+    //yes ma'am
 
     int tileSize = 70;
     int numRows = 8;
     int numCols = numRows;
+
+
     int boardWidth = numCols * tileSize;
     int boardHeight = numRows * tileSize;
     
@@ -79,7 +73,7 @@ public class MineSweeper {
                                     revealMines();
                                 }
                                 else {
-                                    checkMine(tile.r, tile.c);
+                                    checkMine(tile.getRow(), tile.getColumn());
                                 }
                             }
                         }
