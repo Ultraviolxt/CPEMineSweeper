@@ -1,60 +1,49 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.*;
 
-public class MineSweeper {
 
-    int tileSize = 70;
-    int numRows = 8;
-    int numCols = numRows;
-    int boardWidth = numCols * tileSize;
-    int boardHeight = numRows * tileSize;
+public class MineSweeper extends OnScreen{
     
-    JFrame frame;
-    JLabel textLabel;
-    JPanel textPanel, boardPanel;
-    JButton replayButton;
-    
-    int mineCount = 10;
-    MineTile[][] board;
-    ArrayList<MineTile> mineList;
-    Random random = new Random();
 
-    int tilesClicked;
-    boolean gameOver;
+    // MineSweeper(){
+    //     showStartMenu();
+    // }
 
-    public static void main(String[] args) {
-        new MineSweeper().showStartMenu();
-    }
+    public void disappear(){};
+    public void show(){};
 
-    void showStartMenu() {
+    public void showStartMenu() {
         JFrame startFrame = new JFrame("Minesweeper");
-        startFrame.setSize(300, 200);
+        startFrame.setSize(600, 500);
         startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startFrame.setLocationRelativeTo(null);
         startFrame.setLayout(new BorderLayout());
         
         JLabel titleLabel = new JLabel("Minesweeper", JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 60));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setVerticalAlignment(SwingConstants.TOP);
         startFrame.add(titleLabel, BorderLayout.NORTH);
         
         JButton playButton = new JButton("Play");
-        playButton.setFont(new Font("Arial", Font.BOLD, 16));
+        playButton.setFont(new Font("Arial", Font.BOLD, 30));
+        
         playButton.addActionListener(e -> {
             startFrame.dispose();
             initGame();
         });
         
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridBagLayout());
         buttonPanel.add(playButton);
         startFrame.add(buttonPanel, BorderLayout.CENTER);
         
         startFrame.setVisible(true);
     }
 
-    void initGame() {
+    public void initGame() {
         frame = new JFrame("Minesweeper");
         frame.setSize(boardWidth, boardHeight + 50);
         frame.setLocationRelativeTo(null);
@@ -124,7 +113,7 @@ public class MineSweeper {
         setMines();
     }
 
-    void setMines() {
+    public void setMines() {
         int mineLeft = mineCount;
         while (mineLeft > 0) {
             int r = random.nextInt(numRows);
@@ -137,7 +126,7 @@ public class MineSweeper {
         }
     }
 
-    void revealMines() {
+    public void revealMines() {
         for (int i = 0; i < mineList.size(); i++) {
             MineTile tile = mineList.get(i);
             tile.setText("💣");
@@ -147,7 +136,7 @@ public class MineSweeper {
         replayButton.setVisible(true);
     }
 
-    void checkMine(int r, int c) {
+    public void checkMine(int r, int c) {
         if (r < 0 || r >= numRows || c < 0 || c >= numCols) return;
         MineTile tile = board[r][c];
         if (!tile.isEnabled()) return;
@@ -169,7 +158,7 @@ public class MineSweeper {
         }
     }
 
-    int countMinesAround(int r, int c) {
+    public int countMinesAround(int r, int c) {
         int count = 0;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -183,7 +172,7 @@ public class MineSweeper {
         return count;
     }
 
-    void spreadClear(int r, int c) {
+    public void spreadClear(int r, int c) {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 checkMine(r + i, c + j);
